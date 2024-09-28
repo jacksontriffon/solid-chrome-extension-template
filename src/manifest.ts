@@ -14,13 +14,17 @@ const manifest = defineManifest(async () => ({
   version: `${major}.${minor}.${patch}.${label}`,
   description: packageJson.description,
   options_page: "src/pages/options/index.html",
-  background: { service_worker: "src/pages/background/index.ts" },
+  background: {
+    persistent: true,
+    service_worker: "src/pages/background/index.ts",
+  },
+  permissions: ["tabs", "scripting"],
   action: {
     default_popup: "src/pages/popup/index.html",
-    default_icon: "icons/34x34.png",
+    default_icon: "icons/icon_round_256.png",
   },
   icons: {
-    "128": "icons/128x128.png",
+    "256": "icons/icon_round_256.png",
   },
   content_scripts: [
     {
