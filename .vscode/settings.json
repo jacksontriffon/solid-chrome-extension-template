@@ -3,7 +3,7 @@
     "javascript",
     "javascriptreact",
     "typescript",
-    "typescriptreact",
+    "typescriptreact"
   ],
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit",
@@ -12,5 +12,5 @@
   "javascript.preferences.quoteStyle": "single",
   "typescript.preferences.quoteStyle": "single",
   "prettier.singleQuote": true,
-  "debug.internalConsoleOptions": "neverOpen",
+  "debug.internalConsoleOptions": "neverOpen"
 }
