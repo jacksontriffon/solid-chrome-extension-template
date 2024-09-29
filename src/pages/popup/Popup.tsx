@@ -1,25 +1,48 @@
-import logo from "@assets/img/logo.svg";
 import "@src/styles/index.css";
-import styles from "./Popup.module.css";
+import { createSignal, onCleanup, onMount } from "solid-js";
 
 const Popup = () => {
+  const [highlightedText, setHighlightedText] =
+    createSignal("No Text Selected");
+
+  const updateSessionData = () => {
+    chrome.storage.local.get("Highlighted", (result) => {
+      if (result.Highlighted) {
+        setHighlightedText(result.Highlighted);
+      }
+    });
+  };
+
+  // Listen for changes to chrome.storage
+  onMount(() => {
+    // Load initial data
+    updateSessionData();
+
+    const storageListener = (changes, areaName) => {
+      if (areaName === "local" && changes.Highlighted) {
+        setHighlightedText(changes.Highlighted.newValue);
+      }
+    };
+
+    chrome.storage.onChanged.addListener(storageListener);
+
+    onCleanup(() => {
+      chrome.storage.onChanged.removeListener(storageListener);
+    });
+  });
+
   return (
-    <div class={styles.App}>
-      <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <p class="font-bold">
-          Edit <code>src/pages/popup/Popup.tsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Solid
-        </a>
-      </header>
-    </div>
+    <>
+      <iframe
+        src={
+          highlightedText()
+            ? "https://jisho.hlorenzi.com/search/" + highlightedText()
+            : "https://jisho.hlorenzi.com/"
+        }
+        title="Jisho"
+      />
+      ;
+    </>
   );
 };
 

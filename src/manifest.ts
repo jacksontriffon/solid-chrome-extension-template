@@ -18,7 +18,7 @@ const manifest = defineManifest(async () => ({
     persistent: true,
     service_worker: "src/pages/background/index.ts",
   },
-  permissions: ["tabs", "scripting"],
+  permissions: ["tabs", "scripting", "storage"],
   action: {
     default_popup: "src/pages/popup/index.html",
     default_icon: "icons/icon_round_256.png",
